@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOXAKROXA — онлайн-клуб телесных практик</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #0A0A0F; color: #FFF7F1; overflow-x: hidden; }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* NAV */
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 60px; position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100; background: rgba(10,10,15,0.9); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo {
+      font-size: 20px; font-weight: 800; cursor: pointer;
+      background: linear-gradient(135deg, #FF6B35, #FF3CAC);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    nav a { color: rgba(255,247,241,0.7); text-decoration: none; margin-left: 32px; font-size: 14px; font-weight: 500; cursor: pointer; }
+    nav a:hover { color: #FF6B35; }
+    .nav-cta { background: linear-gradient(135deg, #FF6B35, #FF3CAC); color: #fff !important; padding: 10px 24px; border-radius: 100px; font-weight: 600 !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 120px 60px 80px; position: relative; overflow: hidden;
+    }
+    .glow { position: absolute; width: 600px; height: 600px; border-radius: 50%; filter: blur(120px); opacity: 0.15; pointer-events: none; }
+    .glow-1 { background: #FF6B35; top: -150px; left: -150px; }
+    .glow-2 { background: #FF3CAC; bottom: -150px; right: -150px; }
+    .pill {
+      display: inline-block; padding: 10px 24px; border-radius: 100px;
+      border: 1px solid rgba(255,107,53,0.4); font-size: 12px; font-weight: 700;
+      color: #FF6B35; letter-spacing: 2px; margin-bottom: 32px; text-transform: uppercase;
+    }
+    .hero h1 {
+      font-size: clamp(56px, 9vw, 110px); font-weight: 800;
+      letter-spacing: -4px; line-height: 0.9; margin-bottom: 32px;
+      background: linear-gradient(135deg, #FF6B35, #FF3CAC, #E91E63, #FFD60A);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero h1 em { font-family: 'Instrument Serif', serif; font-style: italic; }
+    .hero p { font-size: 18px; font-weight: 300; line-height: 1.8; opacity: 0.7; max-width: 520px; margin-bottom: 48px; }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: linear-gradient(135deg, #FF6B35, #FF3CAC); color: #fff; padding: 16px 40px; border-radius: 100px; font-size: 16px; font-weight: 700; text-decoration: none; display: inline-block; cursor: pointer; }
+    .btn-secondary { border: 1px solid rgba(255,255,255,0.2); color: #FFF7F1; padding: 16px 40px; border-radius: 100px; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-block; cursor: pointer; }
+
+    /* SECTIONS */
+    .section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: #FF6B35; text-transform: uppercase; margin-bottom: 20px; }
+    .section-title { font-size: clamp(32px, 4vw, 52px); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 56px; }
+    .section-title em { font-family: 'Instrument Serif', serif; font-style: italic; background: linear-gradient(135deg, #FF6B35, #FF3CAC); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    .pains { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .pain-card { background: #13131A; border-radius: 24px; border-top: 3px solid #FF6B35; padding: 32px; }
+    .pain-card p { font-size: 15px; line-height: 1.7; opacity: 0.85; }
+
+    .inside-wrap { background: #13131A; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .feature { background: #0A0A0F; border-radius: 24px; padding: 36px; border: 1px solid rgba(255,255,255,0.06); }
+    .feature-icon { font-size: 28px; margin-bottom: 16px; }
+    .feature h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .feature p { font-size: 14px; opacity: 0.65; line-height: 1.7; }
+
+    .tariff-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .tariff-card { background: #13131A; border-radius: 24px; padding: 40px 32px; border: 1px solid rgba(255,255,255,0.08); position: relative; }
+    .tariff-card.featured { border-color: #FF6B35; background: linear-gradient(135deg, rgba(255,107,53,0.07), rgba(255,60,172,0.07)); }
+    .badge { position: absolute; top: -13px; left: 32px; background: linear-gradient(135deg, #FF6B35, #FF3CAC); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 16px; border-radius: 100px; letter-spacing: 1px; text-transform: uppercase; }
+    .tariff-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+    .tariff-price { font-size: 38px; font-weight: 800; margin: 20px 0 4px; }
+    .tariff-price span { font-size: 18px; opacity: 0.5; }
+    .tariff-price-rub { font-size: 14px; opacity: 0.45; margin-bottom: 28px; }
+    .tariff-card ul { list-style: none; margin-bottom: 32px; }
+    .tariff-card ul li { font-size: 14px; opacity: 0.8; line-height: 1.6; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; gap: 8px; }
+    .tariff-card ul li::before { content: "✓"; color: #FF6B35; font-weight: 700; flex-shrink: 0; }
+    .tariff-btn { display: block; text-align: center; padding: 15px; border-radius: 100px; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .tariff-btn-outline { border: 1px solid rgba(255,107,53,0.5); color: #FF6B35; }
+    .tariff-btn-filled { background: linear-gradient(135deg, #FF6B35, #FF3CAC); color: #fff; }
+
+    footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 60px; text-align: center; }
+    footer p { opacity: 0.4; font-size: 13px; line-height: 2.4; }
+    footer a { color: #FF6B35; text-decoration: none; cursor: pointer; }
+
+    /* DOCS (оферта/политика) */
+    .doc-page { padding: 120px 60px 80px; max-width: 860px; margin: 0 auto; line-height: 1.9; }
+    .doc-page h1 { font-size: 28px; font-weight: 700; letter-spacing: 3px; color: #FF6B35; margin-bottom: 12px; }
+    .doc-page .subtitle { opacity: 0.5; font-size: 14px; margin-bottom: 50px; }
+    .doc-page h2 { font-size: 16px; letter-spacing: 1px; color: #FF6B35; margin: 40px 0 16px; font-weight: 700; }
+    .doc-page p { font-size: 15px; opacity: 0.85; margin-bottom: 14px; }
+    .doc-page ul { padding-left: 20px; margin-bottom: 14px; }
+    .doc-page ul li { font-size: 15px; opacity: 0.85; margin-bottom: 8px; }
+    .doc-page a { color: #FF6B35; }
+    .back-btn { display: inline-block; margin-bottom: 40px; color: #FF6B35; text-decoration: none; font-size: 14px; letter-spacing: 1px; cursor: pointer; background: none; border: none; font-family: inherit; }
+    .back-btn:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      nav { padding: 18px 20px; }
+      .hero { padding: 90px 20px 60px; }
+      .section { padding: 60px 20px; }
+      footer { padding: 40px 20px; }
+      .doc-page { padding: 100px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="showPage('main')">GOXAKROXA</div>
+  <div>
+    <a onclick="showPage('main'); scrollToSection('about')">О клубе</a>
+    <a onclick="showPage('main'); scrollToSection('inside')">Наполнение</a>
+    <a onclick="showPage('main'); scrollToSection('tariffs')">Тарифы</a>
+    <a onclick="showPage('main'); scrollToSection('tariffs')" class="nav-cta">Вступить</a>
+  </div>
+</nav>
+
+<!-- ===== ГЛАВНАЯ ===== -->
+<div id="page-main" class="page active">
+
+  <section class="hero">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="pill">Онлайн-клуб телесных практик</div>
+    <h1>ВЕРНИ СЕБЯ<br><em>через тело</em></h1>
+    <p>Живое пространство для женщин — библиотека практик, еженедельные встречи с Гохой и сообщество без осуждения.</p>
+    <div class="hero-btns">
+      <a onclick="scrollToSection('tariffs')" class="btn-primary">Выбрать тариф</a>
+      <a onclick="scrollToSection('inside')" class="btn-secondary">Узнать больше</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section">
+      <div class="section-label">Для кого</div>
+      <h2 class="section-title">Ты здесь, <em>если</em></h2>
+      <div class="pains">
+        <div class="pain-card"><p>Чувствуешь зажимы в теле и хочешь наконец от них избавиться</p></div>
+        <div class="pain-card"><p>Хочешь раскрыться, но не знаешь с чего начать</p></div>
+        <div class="pain-card"><p>Сложно расслабиться — тело постоянно держит напряжение</p></div>
+        <div class="pain-card"><p>Не хватает уверенности в себе и своём теле</p></div>
+        <div class="pain-card"><p>Устала от разовых курсов — нужен живой постоянный ритм</p></div>
+        <div class="pain-card"><p>Хочешь сообщество рядом — без осуждения и стыда</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="inside-wrap" id="inside">
+    <div class="section">
+      <div class="section-label">Наполнение</div>
+      <h2 class="section-title">Что внутри <em>клуба</em></h2>
+      <div class="features">
+        <div class="feature"><div class="feature-icon">📚</div><h3>Библиотека практик</h3><p>Форматы 10, 20 и 40 минут — утро, вечер, расслабление, чувственность. Доступно 24/7.</p></div>
+        <div class="feature"><div class="feature-icon">🔴</div><h3>Живые встречи с Гохой</h3><p>1 живое событие в неделю — 4 встречи в месяц. Практики и разговоры в реальном времени.</p></div>
+        <div class="feature"><div class="feature-icon">🎙️</div><h3>Гостевой эфир</h3><p>Каждый месяц приглашённый эксперт. Новые темы и инструменты — без диагнозов.</p></div>
+        <div class="feature"><div class="feature-icon">💬</div><h3>«Спросить без стыда»</h3><p>Задавай вопросы о теле и отношениях анонимно — без осуждения.</p></div>
+        <div class="feature"><div class="feature-icon">🎯</div><h3>Челленджи и дневник</h3><p>Практические задания которые удерживают ритм. Твой личный дневник прогресса.</p></div>
+        <div class="feature"><div class="feature-icon">👥</div><h3>Чат сообщества</h3><p>Живое общение с участницами. Поддержка, вдохновение, общий путь.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="tariffs">
+    <div class="section">
+      <div class="section-label">Тарифы</div>
+      <h2 class="section-title">Выбери свой <em>формат</em></h2>
+      <div class="tariff-cards">
+        <div class="tariff-card">
+          <h3>Клуб Онлайн</h3>
+          <div class="tariff-price">12 000 <span>₸/мес</span></div>
+          <div class="tariff-price-rub">≈ 2 500 ₽ / мес</div>
+          <ul>
+            <li>Библиотека практик 24/7</li>
+            <li>4 живые встречи с Гохой в месяц</li>
+            <li>Гостевой эфир каждый месяц</li>
+            <li>Рубрика «Спросить без стыда»</li>
+            <li>Челленджи и дневник</li>
+            <li>Чат сообщества</li>
+          </ul>
+          <a href="https://wa.me/77776366941" target="_blank" class="tariff-btn tariff-btn-outline">Вступить в клуб</a>
+        </div>
+        <div class="tariff-card featured">
+          <div class="badge">Популярный</div>
+          <h3>Близкий круг</h3>
+          <div class="tariff-price">70 000 <span>₸/мес</span></div>
+          <div class="tariff-price-rub">≈ 13 900 ₽ / мес</div>
+          <ul>
+            <li>Всё из тарифа «Клуб Онлайн»</li>
+            <li>Личные видеоразборы с Гохой</li>
+            <li>Личный чат с Гохой</li>
+            <li>Приоритетный доступ к новым форматам</li>
+            <li>Максимум 8–10 участниц</li>
+          </ul>
+          <a href="https://wa.me/77776366941" target="_blank" class="tariff-btn tariff-btn-filled">Вступить в круг</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contacts">
+    <p>По вопросам: <a href="https://t.me/">Telegram</a></p>
+    <p>
+      <a onclick="showPage('oferta')">Договор оферты</a>
+      &nbsp;·&nbsp;
+      <a onclick="showPage('privacy')">Политика конфиденциальности</a>
+    </p>
+    <p>© 2026 GOXAKROXA. Все права защищены.</p>
+  </footer>
+
+</div>
+
+<!-- ===== ОФЕРТА ===== -->
+<div id="page-oferta" class="page">
+  <div class="doc-page">
+    <button class="back-btn" onclick="showPage('main')">← Вернуться на главную</button>
+    <h1>ДОГОВОР ПУБЛИЧНОЙ ОФЕРТЫ</h1>
+    <p class="subtitle">Дата вступления в силу: 01 января 2026 г.</p>
+
+    <h2>1. ОБЩИЕ ПОЛОЖЕНИЯ</h2>
+    <p>Настоящий документ является публичной офертой (далее — «Оферта») и содержит все существенные условия договора об оказании информационных и консультационных услуг в формате онлайн-клуба «GOXAKROXA» (далее — «Клуб»).</p>
+    <p>Акцептом настоящей Оферты является оплата услуг Клуба любым из предложенных способов. С момента оплаты договор считается заключённым на условиях настоящей Оферты.</p>
+
+    <h2>2. ИСПОЛНИТЕЛЬ</h2>
+    <p>Исполнитель услуг — индивидуальный предприниматель, предоставляющий доступ к материалам онлайн-клуба «GOXAKROXA».</p>
+
+    <h2>3. ПРЕДМЕТ ДОГОВОРА</h2>
+    <p>Исполнитель обязуется предоставить Пользователю доступ к информационным материалам онлайн-клуба в соответствии с выбранным тарифом. Услуги оказываются дистанционно через платформу Telegram и видеоконференции Zoom.</p>
+
+    <h2>4. ТАРИФЫ И СТОИМОСТЬ</h2>
+    <p><strong>«Клуб Онлайн»</strong> — 12 000 тенге / 2 500 рублей в месяц. Включает: доступ к библиотеке практик, 4 живые встречи в месяц, гостевой эфир, рубрику «Спросить без стыда», челленджи, дневник, доступ в чат сообщества.</p>
+    <p><strong>«Близкий круг»</strong> — 70 000 тенге / 13 900 рублей в месяц. Включает: всё из тарифа «Клуб Онлайн», личные видеоразборы с Гохой, личный чат с Гохой.</p>
+
+    <h2>5. ПОРЯДОК ОПЛАТЫ</h2>
+    <p>Оплата производится ежемесячно посредством банковской карты или иных платёжных средств, доступных на сайте. Подписка возобновляется автоматически, если Пользователь не отменил её заблаговременно.</p>
+
+    <h2>6. ПРАВА И ОБЯЗАННОСТИ СТОРОН</h2>
+    <p>Исполнитель обязуется предоставлять доступ к материалам Клуба в соответствии с выбранным тарифом и своевременно уведомлять об изменениях в расписании или составе услуг.</p>
+    <p>Пользователь обязуется не распространять материалы Клуба третьим лицам, соблюдать этические нормы в сообществе, использовать материалы только в личных целях.</p>
+
+    <h2>7. ВОЗВРАТ СРЕДСТВ</h2>
+    <p>Возврат средств возможен в течение 3 (трёх) дней с момента оплаты при условии, что Пользователь не воспользовался более чем одной практикой из библиотеки и не посещал живые мероприятия. Для возврата необходимо направить заявку на контактный email.</p>
+
+    <h2>8. ОТВЕТСТВЕННОСТЬ</h2>
+    <p>Исполнитель не несёт ответственности за технические неполадки на стороне Пользователя, а также за результаты применения материалов Клуба — результат зависит от регулярности и усилий самого Пользователя.</p>
+
+    <h2>9. КОНФИДЕНЦИАЛЬНОСТЬ</h2>
+    <p>Обработка персональных данных осуществляется в соответствии с <a onclick="showPage('privacy')">Политикой конфиденциальности</a>.</p>
+
+    <h2>10. СРОК ДЕЙСТВИЯ ОФЕРТЫ</h2>
+    <p>Оферта действует бессрочно до момента её отзыва Исполнителем. Исполнитель вправе изменить условия Оферты, уведомив Пользователей не менее чем за 7 дней.</p>
+  </div>
+</div>
+
+<!-- ===== ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ ===== -->
+<div id="page-privacy" class="page">
+  <div class="doc-page">
+    <button class="back-btn" onclick="showPage('main')">← Вернуться на главную</button>
+    <h1>ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</h1>
+    <p class="subtitle">Дата вступления в силу: 01 января 2026 г.</p>
+
+    <h2>1. ОБЩИЕ ПОЛОЖЕНИЯ</h2>
+    <p>Настоящая Политика конфиденциальности описывает, как онлайн-клуб «GOXAKROXA» собирает, использует и защищает персональные данные пользователей сайта и участников клуба.</p>
+    <p>Используя сайт и оплачивая услуги, вы соглашаетесь с условиями настоящей Политики.</p>
+
+    <h2>2. КАКИЕ ДАННЫЕ МЫ СОБИРАЕМ</h2>
+    <ul>
+      <li>Имя и фамилия</li>
+      <li>Адрес электронной почты</li>
+      <li>Номер телефона</li>
+      <li>Данные платёжных транзакций (обрабатываются платёжным сервисом)</li>
+      <li>Технические данные: IP-адрес, тип браузера, страницы посещений</li>
+    </ul>
+
+    <h2>3. ЦЕЛИ ОБРАБОТКИ ДАННЫХ</h2>
+    <ul>
+      <li>Предоставление доступа к услугам Клуба</li>
+      <li>Обработка платежей</li>
+      <li>Отправка уведомлений о событиях и расписании</li>
+      <li>Техническая поддержка пользователей</li>
+      <li>Улучшение качества услуг</li>
+    </ul>
+
+    <h2>4. ПЕРЕДАЧА ДАННЫХ ТРЕТЬИМ ЛИЦАМ</h2>
+    <p>Мы не продаём и не передаём ваши персональные данные третьим лицам, за исключением:</p>
+    <ul>
+      <li>Платёжных сервисов для обработки транзакций (Робокасса)</li>
+      <li>Случаев, предусмотренных законодательством</li>
+    </ul>
+
+    <h2>5. ЗАЩИТА ДАННЫХ</h2>
+    <p>Мы применяем технические и организационные меры для защиты ваших персональных данных от несанкционированного доступа, изменения, раскрытия или уничтожения.</p>
+
+    <h2>6. COOKIES</h2>
+    <p>Сайт использует файлы cookies для улучшения работы. Вы можете отключить cookies в настройках браузера, однако это может повлиять на функциональность сайта.</p>
+
+    <h2>7. ПРАВА ПОЛЬЗОВАТЕЛЯ</h2>
+    <p>Вы имеете право:</p>
+    <ul>
+      <li>Запросить информацию о хранящихся данных</li>
+      <li>Потребовать исправления или удаления данных</li>
+      <li>Отозвать согласие на обработку данных</li>
+    </ul>
+    <p>Для реализации прав направьте запрос на контактный email.</p>
+
+    <h2>8. ХРАНЕНИЕ ДАННЫХ</h2>
+    <p>Персональные данные хранятся в течение срока действия договора и 3 лет после его окончания, если иное не предусмотрено законодательством.</p>
+
+    <h2>9. ИЗМЕНЕНИЕ ПОЛИТИКИ</h2>
+    <p>Мы вправе обновлять настоящую Политику. Актуальная версия всегда доступна на данной странице.</p>
+
+    <h2>10. КОНТАКТЫ</h2>
+    <p>По вопросам обработки персональных данных обращайтесь через <a onclick="showPage('main'); scrollToSection('contacts')">контактную форму</a> на сайте.</p>
+  </div>
+</div>
+
+<script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function scrollToSection(id) {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 50);
+  }
+</script>
+
+</body>
+</html>
