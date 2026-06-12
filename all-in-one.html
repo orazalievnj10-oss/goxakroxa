@@ -102,12 +102,31 @@
     .back-btn { display: inline-block; margin-bottom: 40px; color: #FF6B35; text-decoration: none; font-size: 14px; letter-spacing: 1px; cursor: pointer; background: none; border: none; font-family: inherit; }
     .back-btn:hover { text-decoration: underline; }
 
+    /* GOHA BIO */
+    .goha-role { font-size: 17px; font-style: italic; opacity: 0.55; margin-bottom: 28px; }
+    .goha-list { list-style: none; margin-bottom: 36px; }
+    .goha-list li { font-size: 15px; opacity: 0.85; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; gap: 12px; align-items: flex-start; }
+    .goha-list li::before { content: "→"; color: #FF6B35; flex-shrink: 0; margin-top: 1px; }
+    .goha-quote { font-size: 20px; font-style: italic; color: #FF6B35; border-left: 3px solid #FF6B35; padding-left: 20px; margin-bottom: 44px; line-height: 1.5; }
+    .goha-stats { display: flex; gap: 48px; flex-wrap: wrap; }
+    .stat-num { font-size: 52px; font-weight: 800; background: linear-gradient(135deg, #FF6B35, #FF3CAC); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+    .stat-label { font-size: 11px; opacity: 0.45; letter-spacing: 1px; text-transform: uppercase; margin-top: 6px; }
+
+    /* REVIEWS */
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .review-card { background: #13131A; border-radius: 24px; padding: 32px; border: 1px solid rgba(255,255,255,0.06); }
+    .review-name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+    .review-meta { font-size: 11px; opacity: 0.4; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+    .review-text { font-size: 15px; line-height: 1.75; opacity: 0.85; font-style: italic; }
+    .review-text em { color: #FF6B35; font-style: normal; font-weight: 600; }
+
     @media (max-width: 768px) {
       nav { padding: 18px 20px; }
       .hero { padding: 90px 20px 60px; }
       .section { padding: 60px 20px; }
       footer { padding: 40px 20px; }
       .doc-page { padding: 100px 20px 60px; }
+      .goha-stats { gap: 28px; }
     }
   </style>
 </head>
@@ -153,6 +172,28 @@
     </div>
   </section>
 
+  <section id="goha" style="background: linear-gradient(180deg, transparent, rgba(255,107,53,0.03), transparent);">
+    <div class="section">
+      <div class="section-label">Кто ведёт</div>
+      <h2 class="section-title">Гаухар<br><em>Кандалинова</em></h2>
+      <p class="goha-role">проводница женских телесных практик</p>
+      <ul class="goha-list">
+        <li>Дипломированный хореограф и тренер по фитнес-камасутре</li>
+        <li>Школа в Алматы и Астане — оффлайн + онлайн</li>
+        <li>Авторская методология из 7 практик — аналогов не существует</li>
+        <li>Ежемесячные марафоны «Раскачка» — 271+ участниц прошли путь</li>
+        <li>Исследование аудитории: 81 анкета и 4 глубоких интервью</li>
+        <li>Сотни благодарственных отзывов из WhatsApp-переписок</li>
+      </ul>
+      <blockquote class="goha-quote">«Моя задача — не починить вас.<br>Вы не сломлены.»</blockquote>
+      <div class="goha-stats">
+        <div class="stat"><div class="stat-num">7</div><div class="stat-label">авторских практик</div></div>
+        <div class="stat"><div class="stat-num">81</div><div class="stat-label">анкета исследования</div></div>
+        <div class="stat"><div class="stat-num">100+</div><div class="stat-label">благодарственных отзывов</div></div>
+      </div>
+    </div>
+  </section>
+
   <div class="inside-wrap" id="inside">
     <div class="section">
       <div class="section-label">Наполнение</div>
@@ -167,6 +208,30 @@
       </div>
     </div>
   </div>
+
+  <section id="reviews">
+    <div class="section">
+      <div class="section-label">Отзывы</div>
+      <h2 class="section-title">Не я. <em>Они</em> — после марафона</h2>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-name">Шолпан</div>
+          <div class="review-meta">Участница марафона Раскачка · 17 сент. 2025</div>
+          <p class="review-text">«Гаухар, у меня хорошая новость. После ваших тренировок, на следующий же месяц показали <em>2 полоски</em>. Помните, вы говорили что после занятий многие беременеют — <em>я ждала 7 лет</em> эту беременность. Сижу и плачу от счастья»</p>
+        </div>
+        <div class="review-card">
+          <div class="review-name">Участница марафона</div>
+          <div class="review-meta">WhatsApp-отзыв</div>
+          <p class="review-text">«После практики либидо — <em>моя внутренняя женщина вернулась ко мне</em>, про которую я забыла в последние полгода. Вспомнила о себе — какая я сексуальная, красивая. В теле мягкость чувствую. Благодарю за такую отдачу.»</p>
+        </div>
+        <div class="review-card">
+          <div class="review-name">Салта</div>
+          <div class="review-meta">Участница марафона · WhatsApp</div>
+          <p class="review-text">«Я была всего один раз, но <em>эффект и полученный опыт на всю жизнь</em>. До марафона у меня не было такого понимания своего тела и ощущений. Сейчас чувствуется колоссальная разница.»</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="tariffs">
     <div class="section">
